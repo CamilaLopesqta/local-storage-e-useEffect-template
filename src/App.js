@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function App() {
   // Estado para armazenar a lista de compras
@@ -16,6 +17,33 @@ export default function App() {
     }
   };
 
+  /* const salvarLista = () => {
+    const listaString = JSON.stringify(listaCompras)
+    localStorage.setItem("lista", listaString)
+  } */
+
+  //guardando a lista no estado e no local storage
+  useEffect (()=>{
+    if (listaCompras.length > 0){
+    const listaString = JSON.stringify(listaCompras)
+    localStorage.setItem("lista", listaString)
+    }
+  }, [listaCompras])
+
+  useEffect(()=>{
+    const listaSalva = JSON.parse(localStorage.getItem("lista"));
+    setListaCompras(listaSalva)
+  }, []);
+
+  /* const pegarLista = () => {
+    const listaSalva = JSON.parse(localStorage.getItem("lista"));
+    setListaCompras(listaSalva)
+  } */
+  const limparLista = ()=>{
+    localStorage.removeItem("lista")
+    setListaCompras([])
+  }
+ 
   return (
     <div>
       <h1>Lista de Compras</h1>
@@ -26,7 +54,9 @@ export default function App() {
         placeholder="Digite um item"
       />
       <button onClick={adicionarItem}>Adicionar</button>
-
+      {/* //<button onClick={salvarLista} >Salvar Lista</button> */}
+      {/* <button onClick={pegarLista} >Pegar lista</button> */}
+      <button onClick={limparLista} >Limpar lista</button>
       <ul>
         {listaCompras.map((compra, index) => (
           <li key={index}>{compra}</li>
