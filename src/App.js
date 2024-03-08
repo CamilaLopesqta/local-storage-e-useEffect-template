@@ -17,33 +17,38 @@ export default function App() {
     }
   };
 
-  /* const salvarLista = () => {
-    const listaString = JSON.stringify(listaCompras)
-    localStorage.setItem("lista", listaString)
-  } */
+  // const salvarLista = () => {
+  // const listaString = JSON.stringify(listaCompras);
+  // localStorage.setItem("lista", listaString);
+  // } --substituído pelo useEffect abaixo
 
   //guardando a lista no estado e no local storage
-  useEffect (()=>{
-    if (listaCompras.length > 0){
-    const listaString = JSON.stringify(listaCompras)
-    localStorage.setItem("lista", listaString)
+  useEffect(() => {
+    if (listaCompras.length > 0) {
+      const listaString = JSON.stringify(listaCompras);
+      localStorage.setItem("lista", listaString);
     }
-  }, [listaCompras])
+  }, [listaCompras]);
 
-  useEffect(()=>{
-    const listaSalva = JSON.parse(localStorage.getItem("lista"));
-    setListaCompras(listaSalva)
+  // const pegarLista = () => {
+  //   const listaSalva = JSON.parse(localStorage.getItem("lista"));
+  //   setListaCompras(listaSalva)
+  // } --substituído pelo useEffect
+
+  useEffect(() => {
+    if (listaCompras) {
+      const listaSalva = JSON.parse(localStorage.getItem("lista"));
+      if (listaSalva) {
+        setListaCompras(listaSalva);
+      }
+    }
   }, []);
 
-  /* const pegarLista = () => {
-    const listaSalva = JSON.parse(localStorage.getItem("lista"));
-    setListaCompras(listaSalva)
-  } */
-  const limparLista = ()=>{
-    localStorage.removeItem("lista")
-    setListaCompras([])
-  }
- 
+  const limparLista = () => {
+    localStorage.removeItem("lista");
+    setListaCompras([]);
+  };
+
   return (
     <div>
       <h1>Lista de Compras</h1>
@@ -54,9 +59,9 @@ export default function App() {
         placeholder="Digite um item"
       />
       <button onClick={adicionarItem}>Adicionar</button>
-      {/* //<button onClick={salvarLista} >Salvar Lista</button> */}
+      {/* <button onClick={salvarLista} >Salvar Lista</button> */}
       {/* <button onClick={pegarLista} >Pegar lista</button> */}
-      <button onClick={limparLista} >Limpar lista</button>
+      <button onClick={limparLista}>Limpar lista</button>
       <ul>
         {listaCompras.map((compra, index) => (
           <li key={index}>{compra}</li>
